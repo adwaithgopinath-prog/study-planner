@@ -497,6 +497,103 @@ window.generateStudyPlan=generateStudyPlan; window.generateQuiz=generateQuiz;
 window.answerMCQ=answerMCQ; window.resetQuiz=resetQuiz; window.toggleTimer=toggleTimer;
 window.addNote=addNote; window.triggerCoach=triggerCoach;
 
+function renderOverview() {
+    const completed = S.sessions.filter(s => s.done).length;
+    const total = S.sessions.length;
+    const syncPct = total > 0 ? Math.round((completed / total) * 100) : 0;
+    const topicCount = Object.keys(S.topics).length;
+    
+    if(document.getElementById('stat-topics')) document.getElementById('stat-topics').textContent = topicCount || total;
+    if(document.getElementById('stat-sync')) document.getElementById('stat-sync').textContent = syncPct + '%';
+    if(document.getElementById('stat-streak')) document.getElementById('stat-streak').textContent = (S.streak || 0) + '🔥';
+    
+    renderXP();
+    
+    const el = document.getElementById('sessions-list');
+    if(el) {
+        if (!S.sessions.length) {
+            el.innerHTML = `<div class="empty-state"><p>No sessions yet. Initialize a plan to start.</p></div>`;
+        } else {
+            el.innerHTML = S.sessions.slice(0, 10).map(s => `
+                <div class="sess-row ${s.done ? 'done' : ''}" onclick="completeSession('${s.id}')">
+                    <div class="sess-name">${s.topic || s.name}</div>
+                    <div class="sess-chk">✓</div>
+                </div>`).join('');
+        }
+    }
+}
+
+function renderAnalytics() {
+    const bars = document.getElementById('chart-bars');
+    if(!bars) return;
+    const max = Math.max(...S.weeklyActivity, 1);
+    bars.innerHTML = S.weeklyActivity.map((v, i) => {
+        const h = Math.round((v / max) * 100);
+        return `<div class="chart-bar-wrap"><div class="chart-bar" style="height:${Math.max(h, 4)}%"></div></div>`;
+    }).join('');
+}
+
+function renderLibrary() {
+    const list = document.getElementById('library-list');
+    if(!list) return;
+    let items = [...S.library, ...S.savedPlans.map(p => ({ ...p, type: 'plan' }))];
+    if (!items.length) { list.innerHTML = '<p>Library is empty.</p>'; return; }
+    list.innerHTML = items.map(i => `<div class="sess-row"><b>${i.title || i.type}</b></div>`).join('');
+}
+
+function renderChecklist() {
+    const area = document.getElementById('checklist-area');
+    if(!area) return;
+    if (!S.activeChecklist.length) {
+        area.innerHTML = '<p>No active tasks.</p>';
+        return;
+    }
+    area.innerHTML = S.activeChecklist.map(t => `<div class="checklist-item">${t.text}</div>`).join('');
+}
+
+function syncUserUI() {
+    if(document.getElementById('dash-name')) document.getElementById('dash-name').textContent = S.userName;
+    if(document.getElementById('sb-user-name')) document.getElementById('sb-user-name').textContent = S.userName;
+}
+
+function renderXP() {
+    const nextLvlXp = S.level * 1000;
+    const pct = (S.xp / nextLvlXp) * 100;
+    const fill = document.getElementById('sb-xp-fill');
+    if (fill) fill.style.width = pct + '%';
+    const lvl = document.getElementById('sb-lvl');
+    if (lvl) lvl.textContent = S.level;
+    if (document.getElementById('stat-lvl')) document.getElementById('stat-lvl').textContent = S.level;
+}
+
+function completeSession(id) {
+    const s = S.sessions.find(x => String(x.id) === String(id));
+    if (!s) return;
+    s.done = !s.done;
+    if (s.done) {
+        addXP(250);
+        const day = new Date().getDay(); S.weeklyActivity[day === 0 ? 6 : day - 1]++;
+        showToast('🔥 Session Complete!');
+    }
+    saveState(); renderOverview();
+}
+
+function logActivity(text, detail = '') {
+    const now = new Date();
+    S.activityLog.push({ text, detail, time: now.toLocaleTimeString() });
+}
+
+function renderNotes() {
+    const list = document.getElementById('notes-list');
+    if(!list) return;
+    list.innerHTML = S.notes.map(n => `<div class="note-item">${n.content}</div>`).join('');
+}
+
+function renderQuizHistory() {}
+
+window.renderOverview = renderOverview;
+window.completeSession = completeSession;
+
 // ═══════════════════════════════════════════════
 //  PREMIUM FEATURES (v5.2)
 // ═══════════════════════════════════════════════

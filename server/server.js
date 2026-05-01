@@ -55,11 +55,9 @@ app.post('/api/user/:id/sync', (req, res) => {
     res.json({ success: true });
 });
 
-// ── SERVE CLIENT IN PRODUCTION ──
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client')));
-    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../client', 'index.html')));
-}
+// ── SERVE CLIENT ──
+app.use(express.static(path.join(__dirname, '../client')));
+app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../client', 'index.html')));
 
 app.listen(PORT, () => {
     console.log(`🚀 AURA OS Backend initialized on port ${PORT}`);
