@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyForge — Neural AI Study Engine</title>
+<!-- CSS Link -->
+<link rel="stylesheet" href="style.css">
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- BACKGROUND ELEMENTS -->
+<canvas id="bg-canvas"></canvas>
+<div class="noise"></div>
+<div id="toast" class="toast">SUCCESS: Neural Node Synced</div>
+
+<!-- NAVIGATION -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="navigateTo('landing')">Study<span>Forge</span></div>
+  <div class="nav-links">
+    <a href="javascript:void(0)" onclick="navigateTo('landing')">Core Engine</a>
+    <a href="javascript:void(0)" onclick="navigateTo('pricing')">Neural Tiers</a>
+    <a href="javascript:void(0)" onclick="navigateTo('dashboard')">Terminal</a>
+  </div>
+  <div class="nav-cta">
+    <button class="btn btn-ghost" onclick="navigateTo('dashboard')">Initialize</button>
+    <button class="btn btn-primary" onclick="navigateTo('dashboard')">Deploy Account</button>
+  </div>
+</nav>
+
+<!-- LANDING PAGE -->
+<div id="landing" class="page active">
+  <section class="hero">
+    <div class="hero-glow-ring"></div>
+    <div class="hero-glow-ring"></div>
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      NEURAL CORE v3.0 ACTIVE
+    </div>
+    <h1>Study <span class="outline">Harder.</span><br>Score <em>Higher.</em></h1>
+    <p class="hero-sub">The world's first AI study engine with adaptive neural scheduling and automated knowledge extraction.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" onclick="navigateTo('dashboard')">Initialize Engine</button>
+      <button class="btn btn-ghost btn-lg">View Whitepaper</button>
+    </div>
+
+    <!-- METRIC CARDS -->
+    <div class="hero-cards">
+      <div class="h-card">
+        <div class="h-card-label">AVG_SCORE_IMP</div>
+        <div class="h-card-val">+31% <span>↑</span></div>
+      </div>
+      <div class="h-card">
+        <div class="h-card-label">NEURAL_PLANS</div>
+        <div class="h-card-val">18k <span>↑</span></div>
+      </div>
+      <div class="h-card">
+        <div class="h-card-label">TIME_SAVED</div>
+        <div class="h-card-val">4.5h <span>↑</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PRICING PAGE -->
+<div id="pricing" class="page">
+  <section>
+    <div class="section-label">Neural Subscription</div>
+    <h2 class="section-title">Scale your <em>intelligence</em> with our tiers</h2>
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="plan-name">BASIC_NODE</div>
+        <div class="plan-price"><sup>₹</sup>0</div>
+        <div class="plan-period">free forever</div>
+        <ul class="plan-features">
+          <li class="on"><span class="check-icon">✓</span> 3 Neural Plans</li>
+          <li class="on"><span class="check-icon">✓</span> AI Timetable</li>
+          <li class="on"><span class="check-icon">✓</span> Basic Extraction</li>
+        </ul>
+        <button class="plan-btn" onclick="navigateTo('dashboard')">Deploy Basic</button>
+      </div>
+      <div class="plan featured">
+        <div class="plan-badge">MOST_DEPLOYED</div>
+        <div class="plan-name">PRO_NODE</div>
+        <div class="plan-price"><sup>₹</sup>299</div>
+        <div class="plan-period">per month</div>
+        <ul class="plan-features">
+          <li class="on"><span class="check-icon">✓</span> Unlimited Plans</li>
+          <li class="on"><span class="check-icon">✓</span> Adaptive Rescheduling</li>
+          <li class="on"><span class="check-icon">✓</span> Unlimited AI Extraction</li>
+        </ul>
+        <button class="plan-btn accent" onclick="navigateTo('dashboard')">Initialize Pro</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div id="dashboard" class="page">
+  <div class="dash-layout">
+    <!-- SIDEBAR -->
+    <div class="dash-sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">COMMAND_CENTER</div>
+        <div class="sidebar-item active">Overview</div>
+        <div class="sidebar-item">Neural Planner</div>
+        <div class="sidebar-item">AI Extraction <span class="sidebar-badge">NEW</span></div>
+        <div class="sidebar-item">Analytics</div>
+      </div>
+      <div style="margin-top:auto">
+        <div class="sidebar-upgrade">
+          <p><strong>NEURAL_TIER: FREE</strong><br>Capacity: 64%</p>
+          <button class="btn btn-primary" style="width:100%; font-size:11px;">UPGRADE_NODE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN DASH -->
+    <div class="dash-main">
+      <div class="dash-header">
+        <div>
+          <h2 class="dash-welcome">Welcome, <span style="color:var(--accent)">Adwaith</span></h2>
+          <div class="dash-date" id="clock"></div>
+        </div>
+        <button class="btn btn-primary">Initialize New Plan</button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat"><div class="stat-n">14</div><div class="stat-l">Active Topics</div></div>
+        <div class="stat"><div class="stat-n">72%</div><div class="stat-l">Neural Sync</div></div>
+        <div class="stat"><div class="stat-n" style="color:var(--accent)">21🔥</div><div class="stat-l">Day Streak</div></div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-card">
+          <div class="dash-card-title">PENDING_SESSIONS <span>VIEW_ALL →</span></div>
+          <div class="today-sessions">
+            <div class="session-row" onclick="completeSession(this)">
+              <div class="session-dot" style="background:var(--accent)"></div>
+              <div class="session-name">Quantum Physics: Entropy Depth</div>
+              <div class="session-meta">90m</div>
+              <div class="session-check">✓</div>
+            </div>
+            <div class="session-row" onclick="completeSession(this)">
+              <div class="session-dot" style="background:var(--accent2)"></div>
+              <div class="session-name">Complex Analysis: Residue Theorem</div>
+              <div class="session-meta">120m</div>
+              <div class="session-check">✓</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <div class="dash-card-title">NEURAL_PROGRESS</div>
+          <div class="topic-progress">
+            <div class="tp-row">
+              <div class="tp-label"><span>Physics</span><span class="tp-pct">84%</span></div>
+              <div class="tp-bar"><div class="tp-fill" style="width:84%; background:var(--accent)"></div></div>
+            </div>
+            <div class="tp-row">
+              <div class="tp-label"><span>Math</span><span class="tp-pct">42%</span></div>
+              <div class="tp-bar"><div class="tp-fill" style="width:42%; background:var(--accent2)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// --- CURSOR LOGIC ---
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+
+document.addEventListener('mousemove', (e) => {
+  gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
+  gsap.to(cursorRing, { x: e.clientX, y: e.clientY, duration: 0.15 });
+});
+
+document.querySelectorAll('button, a, .sidebar-item, .session-row, .nav-logo, .h-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
+});
+
+// --- NAVIGATION ---
+function navigateTo(pageId) {
+  const current = document.querySelector('.page.active');
+  const target = document.getElementById(pageId);
+  if (current === target) return;
+
+  gsap.to(current, { opacity: 0, y: 20, duration: 0.3, onComplete: () => {
+    current.classList.remove('active');
+    target.classList.add('active');
+    gsap.fromTo(target, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5 });
+  }});
+
+  if(pageId === 'dashboard') document.getElementById('navbar').classList.add('scrolled');
+  else document.getElementById('navbar').classList.remove('scrolled');
+}
+
+// --- BACKGROUND CANVAS ---
+function initBG() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.vy = (Math.random() - 0.5) * 0.4;
+      this.size = Math.random() * 2;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if(this.x < 0 || this.x > canvas.width) this.vx *= -1;
+      if(this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(200, 241, 53, 0.15)';
+      ctx.fill();
+    }
+  }
+
+  for(let i=0; i<100; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+initBG();
+
+// --- LOGIC ---
+function completeSession(el) {
+  const isDone = el.classList.toggle('done');
+  if(isDone) {
+    showToast('NEURAL DATA SYNCED');
+    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#C8F135', '#ffffff'] });
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerText = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function updateClock() {
+  const now = new Date();
+  const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  document.getElementById('clock').innerText = now.toLocaleString('en-IN', options).toUpperCase() + ' — NODE_ACTIVE';
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// --- ENTRANCE ---
+gsap.from('.hero-badge, .hero h1, .hero-sub, .hero-actions, .hero-cards', {
+  y: 40, opacity: 0, duration: 1, stagger: 0.12, ease: 'power4.out'
+});
+
+</script>
+</body>
+</html>
